@@ -6,6 +6,7 @@
 - Docs: update the Homebrew install command to use the official `codexbar` cask now that it supports Intel Macs (#1189). Thanks @SSakutaro!
 - Tests: document and audit that routine validation must not trigger macOS Keychain prompts.
 - Localization: localize popup panels and provider settings UI across supported languages (#1181). Thanks @jack24254029!
+- Localization: complete Brazilian Portuguese coverage so pt-BR no longer falls back to English for new UI strings (#1188). Thanks @ManuzimFerreira!
 
 ### Added
 - AWS Bedrock: support resolving usage and cost-history credentials from a named AWS profile via the AWS CLI (#1190). Thanks @oleksandr-soldatov!
