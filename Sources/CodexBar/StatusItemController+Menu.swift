@@ -992,6 +992,7 @@ extension StatusItemController {
                     self.lastMenuProvider = provider
                 }
                 self.lastMergedSwitcherSelection = selection
+                self.refreshProviderSelectionDependentUI()
                 self.deferSwitcherMenuRebuildIfStillVisible(menu, provider: provider)
             })
         let item = NSMenuItem()
@@ -1574,8 +1575,8 @@ extension StatusItemController {
         self.lastMergedSwitcherSelection = nil
         self.selectedMenuProvider = provider
         self.lastMenuProvider = provider
+        self.refreshProviderSelectionDependentUI()
         self.populateMenu(menu, provider: provider)
         self.markMenuFresh(menu)
-        self.applyIcon(phase: nil)
     }
 }
