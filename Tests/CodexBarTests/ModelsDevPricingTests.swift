@@ -150,7 +150,9 @@ struct ModelsDevPricingTests {
 
         #expect(lookup.pricing.inputCostPerToken == 0.15 / 1_000_000.0)
     }
+}
 
+extension ModelsDevPricingTests {
     @Test
     func `refresh accepts model churn and preserves removed pricing as fallback`() async throws {
         let root = try Self.cacheRoot()
