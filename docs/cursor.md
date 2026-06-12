@@ -8,7 +8,7 @@ read_when:
 
 # Cursor provider
 
-Cursor is web-only. Usage is fetched via browser cookies or a stored WebKit session.
+Cursor is primarily web-backed. Usage is fetched via browser cookies or a stored WebKit session, with Cursor.app local auth as a final fallback.
 
 ## Data sources + fallback order
 
@@ -28,6 +28,13 @@ Cursor is web-only. Usage is fetched via browser cookies or a stored WebKit sess
    - Captured by the "Add Account" WebKit login flow.
    - Login teardown uses `WebKitTeardown` to avoid Intel WebKit crashes.
    - Stored at: `~/Library/Application Support/CodexBar/cursor-session.json`.
+
+4) **Cursor.app local auth** (last fallback)
+   - Reads Cursor.app's VS Code-style global state DB for the local app bearer token.
+   - File: `~/Library/Application Support/Cursor/User/globalStorage/state.vscdb`.
+   - Used only after cookie/session sources fail so existing account-selection precedence stays stable.
+   - Derives Cursor's first-party web-session cookie, then uses the same usage and account endpoints as browser sessions.
+   - Account identity comes from that authenticated session; cached app profile fields are not mixed across accounts.
 
 Manual option:
 - Preferences → Providers → Cursor → Cookie source → Manual.
