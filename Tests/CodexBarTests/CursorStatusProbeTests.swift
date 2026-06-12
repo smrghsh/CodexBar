@@ -1089,6 +1089,16 @@ extension CursorStatusProbeTests {
                         "remainingBonus": true,
                         "bonusTooltip": "Bonus usage remains"
                       },
+                      "spendLimitUsage": {
+                        "totalSpend": 450,
+                        "pooledLimit": 5000,
+                        "pooledUsed": 1200,
+                        "pooledRemaining": 3800,
+                        "individualLimit": 1000,
+                        "individualUsed": 450,
+                        "individualRemaining": 550,
+                        "limitType": "hard"
+                      },
                       "enabled": true,
                       "displayMessage": "You've used 19% of your included usage"
                     }
@@ -1130,6 +1140,10 @@ extension CursorStatusProbeTests {
         #expect(snapshot.apiPercentUsed == nil)
         #expect(snapshot.planUsedUSD == 3.88)
         #expect(snapshot.planLimitUSD == 20.0)
+        #expect(snapshot.onDemandUsedUSD == 4.5)
+        #expect(snapshot.onDemandLimitUSD == 10.0)
+        #expect(snapshot.teamOnDemandUsedUSD == 12.0)
+        #expect(snapshot.teamOnDemandLimitUSD == 50.0)
         #expect(snapshot.billingCycleStart == Date(timeIntervalSince1970: 1_779_536_824_000 / 1000.0))
         #expect(snapshot.billingCycleEnd == Date(timeIntervalSince1970: 1_782_215_224_000 / 1000.0))
         #expect(snapshot.membershipType == "pro")

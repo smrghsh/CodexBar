@@ -435,6 +435,7 @@ public struct CursorDashboardCurrentPeriodUsage: Codable, Sendable {
     public let billingCycleStart: String?
     public let billingCycleEnd: String?
     public let planUsage: CursorDashboardPlanUsage?
+    public let spendLimitUsage: CursorDashboardSpendLimitUsage?
     public let enabled: Bool?
     public let displayMessage: String?
 }
@@ -447,6 +448,17 @@ public struct CursorDashboardPlanUsage: Codable, Sendable {
     public let limit: Double?
     public let remainingBonus: Bool?
     public let bonusTooltip: String?
+}
+
+public struct CursorDashboardSpendLimitUsage: Codable, Sendable {
+    public let totalSpend: Double?
+    public let pooledLimit: Double?
+    public let pooledUsed: Double?
+    public let pooledRemaining: Double?
+    public let individualLimit: Double?
+    public let individualUsed: Double?
+    public let individualRemaining: Double?
+    public let limitType: String?
 }
 
 public struct CursorDashboardMe: Codable, Sendable {
@@ -1287,6 +1299,11 @@ public struct CursorStatusProbe: Sendable {
 
         let includedSpend = max(0, plan.includedSpend ?? 0)
         let limit = max(0, plan.limit ?? 0)
+        let spendLimit = usage.spendLimitUsage
+        let individualUsed = max(0, spendLimit?.individualUsed ?? 0)
+        let individualLimit = spendLimit?.individualLimit.map { max(0, $0) }
+        let pooledUsed = spendLimit?.pooledUsed.map { max(0, $0) }
+        let pooledLimit = spendLimit?.pooledLimit.map { max(0, $0) }
         // Cursor's own usage UI derives the plan percentage from included spend, not total/bonus spend.
         let planPercentUsed = limit > 0
             ? min(100, includedSpend / limit * 100)
@@ -1307,10 +1324,10 @@ public struct CursorStatusProbe: Sendable {
             apiPercentUsed: nil,
             planUsedUSD: includedSpend / 100.0,
             planLimitUSD: limit / 100.0,
-            onDemandUsedUSD: 0,
-            onDemandLimitUSD: nil,
-            teamOnDemandUsedUSD: nil,
-            teamOnDemandLimitUSD: nil,
+            onDemandUsedUSD: individualUsed / 100.0,
+            onDemandLimitUSD: individualLimit.map { $0 / 100.0 },
+            teamOnDemandUsedUSD: pooledUsed.map { $0 / 100.0 },
+            teamOnDemandLimitUSD: pooledLimit.map { $0 / 100.0 },
             billingCycleStart: billingCycleStart,
             billingCycleEnd: billingCycleEnd,
             membershipType: appSession.membershipType,
